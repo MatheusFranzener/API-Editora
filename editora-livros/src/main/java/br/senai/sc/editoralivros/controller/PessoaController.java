@@ -46,7 +46,6 @@ public class PessoaController {
         return ResponseEntity.status(HttpStatus.OK).body(pessoaOptional.get());
     }
 
-
     @PutMapping("/{cpf}")
     public ResponseEntity<Object> update(@PathVariable(value = "cpf") Long cpf, @RequestBody @Valid PessoaDTO pessoaDTO) {
         Optional<Pessoa> pessoaOptional = service.findById(cpf);
@@ -54,7 +53,7 @@ public class PessoaController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Não foi possível encontrar a pessoa com esse cpf!");
         }
 
-        if(service.existsByEmail(pessoaDTO.getEmail())){
+        if (service.existsByEmail(pessoaDTO.getEmail())) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("O email já está em uso!");
         }
 
@@ -79,8 +78,6 @@ public class PessoaController {
         BeanUtils.copyProperties(pessoaDTO, pessoa);
         return ResponseEntity.status(HttpStatus.OK).body(service.save(pessoa));
     }
-
-
 
     @Transactional
     @DeleteMapping("/{cpf}")
