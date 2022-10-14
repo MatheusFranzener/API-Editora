@@ -4,14 +4,12 @@ import lombok.*;
 
 import javax.persistence.*;
 
-@Entity
-@Table(name = "tb_pessoa")
-@AllArgsConstructor
-@NoArgsConstructor()
-@Getter
-@Setter
-@ToString
-@EqualsAndHashCode
+@Entity // Declara que a classe é uma entidade do banco de dados
+@Table(name = "tb_pessoa") // Define o nome da tabela no banco de dados
+@AllArgsConstructor @NoArgsConstructor() // Define um construtor com argumentos e um sem
+@Getter @Setter // Define os métodos get e set para todos os atributos da classe
+@ToString // Define o método toString
+@EqualsAndHashCode // Define que o equals e o hashcode serão gerados com base nos atributos da classe
 public class Pessoa {
     @Id
     @Column(length = 11, nullable = false, unique = true)

@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.Optional;
 
 @Controller
-@RequestMapping("/editoralivros/pessoa")
+@RequestMapping("/editoralivros/pessoa") // Criando a rota para as requisições
 public class PessoaController {
     private PessoaService service;
 
@@ -24,7 +24,7 @@ public class PessoaController {
     }
 
     @GetMapping
-    public ResponseEntity<List<Pessoa>> findAll() {
+    public ResponseEntity<List<Pessoa>> findAll() { // ResponseEntity é o retorno da requisição HTTP
         return ResponseEntity.status(HttpStatus.OK).body(service.findAll());
     }
 

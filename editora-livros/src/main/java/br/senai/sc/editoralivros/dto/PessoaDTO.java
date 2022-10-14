@@ -6,7 +6,7 @@ import lombok.Getter;
 import javax.validation.constraints.NotBlank;
 
 @Getter
-public class PessoaDTO {
+public class PessoaDTO {  
 //    @NotBlank
     private Long cpf;
 //    @NotBlank

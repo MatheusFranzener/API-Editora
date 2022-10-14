@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Optional;
 
-@Repository
+@Repository // Indica que a classe é um repositório
 public interface PessoaRepository extends JpaRepository<Pessoa, Long> {
     Optional<Pessoa> findByEmail(String email);
 

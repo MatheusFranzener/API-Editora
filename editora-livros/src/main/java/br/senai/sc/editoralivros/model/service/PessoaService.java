@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 import java.util.Optional;
 
-@Service
+@Service // Indica que a classe é um serviço
 public class PessoaService {
     private PessoaRepository repository;
 
