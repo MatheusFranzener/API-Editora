@@ -11,6 +11,7 @@ import javax.persistence.*;
 @ToString // Define o método toString
 @EqualsAndHashCode // Define que o equals e o hashcode serão gerados com base nos atributos da classe
 public class Pessoa {
+
     @Id
     @Column(length = 11, nullable = false, unique = true)
     private Long cpf;
@@ -30,4 +31,5 @@ public class Pessoa {
     @Enumerated(value = EnumType.STRING)
     @Column(length = 15, nullable = false)
     private Genero genero;
+
 }

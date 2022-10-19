@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 
 @AllArgsConstructor
 public enum Status {
+
     AGUARDANDO_REVISAO("Aguardando revisão"),
     EM_REVISAO("Em Revisão"),
     APROVADO("Aprovado"),

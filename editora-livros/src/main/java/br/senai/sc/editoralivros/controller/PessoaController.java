@@ -6,29 +6,35 @@ import br.senai.sc.editoralivros.model.service.PessoaService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
-import javax.transaction.Transactional;
-import javax.validation.Valid;
 import java.util.List;
 import java.util.Optional;
 
+import javax.validation.Valid;
+
+import lombok.AllArgsConstructor;
+
+import javax.transaction.Transactional;
+
+import org.springframework.stereotype.Controller;
+
+@AllArgsConstructor
 @Controller
 @RequestMapping("/editoralivros/pessoa") // Criando a rota para as requisições
 public class PessoaController {
     private PessoaService service;
 
-    public PessoaController(PessoaService service) {
-        this.service = service;
-    }
+//    public PessoaController(PessoaService service) {
+//        this.service = service;
+//    }
 
     @GetMapping
     public ResponseEntity<List<Pessoa>> findAll() { // ResponseEntity é o retorno da requisição HTTP
         return ResponseEntity.status(HttpStatus.OK).body(service.findAll());
     }
 
-    @GetMapping("/{cpf}")
+    @GetMapping("cpf/{cpf}")
     public ResponseEntity<Object> findById(@PathVariable(value = "cpf") Long cpf) {
         Optional<Pessoa> pessoaOptional = service.findById(cpf);
         if (pessoaOptional.isEmpty()) {
@@ -37,7 +43,7 @@ public class PessoaController {
         return ResponseEntity.status(HttpStatus.OK).body(pessoaOptional.get());
     }
 
-    @GetMapping("/{email}")
+    @GetMapping("email/{email}")
     public ResponseEntity<Object> findByEmail(@PathVariable(value = "email") String email) {
         Optional<Pessoa> pessoaOptional = service.findByEmail(email);
         if (pessoaOptional.isEmpty()) {
