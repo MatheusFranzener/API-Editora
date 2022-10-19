@@ -4,12 +4,14 @@ import br.senai.sc.editoralivros.model.entities.Autor;
 
 import lombok.Getter;
 
+import java.util.List;
+
 @Getter
 public class LivroDTO {
 
     private Long isbn;
     private String titulo;
-    private Autor autor;
+    private List<Autor> autores;
     private Integer qtdPag;
 
 }

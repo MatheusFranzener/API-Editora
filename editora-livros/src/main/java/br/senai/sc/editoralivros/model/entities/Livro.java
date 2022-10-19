@@ -3,6 +3,7 @@ package br.senai.sc.editoralivros.model.entities;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Table(name = "tb_livros")
@@ -21,9 +22,13 @@ public class Livro {
     @Column(length = 50, nullable = false)
     private String titulo;
 
-    @ManyToOne // tipo de relacionamento ( N : 1 )
-    @JoinColumn(name = "cpf_autor", nullable = false) // tabela de relacionamento
-    private Autor autor;
+    @ManyToMany // tipo de relacionamento ( N : N )
+    @JoinTable(
+            name = "tb_livro_autor",
+            joinColumns = @JoinColumn(name = "isbn_livro", nullable = false), // primeiro vai a tabela que possui a foreign key
+            inverseJoinColumns = @JoinColumn(name = "cpf_autor", nullable = false) // depois a tabela que não possui a foreign key
+    )
+    private List<Autor> autores;
 
     @Column(nullable = false)
     private Integer qtdPag;

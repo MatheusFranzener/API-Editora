@@ -2,6 +2,7 @@ package br.senai.sc.editoralivros.controller;
 
 import br.senai.sc.editoralivros.dto.PessoaDTO;
 import br.senai.sc.editoralivros.model.entities.Pessoa;
+import br.senai.sc.editoralivros.model.factory.PessoaFactory;
 import br.senai.sc.editoralivros.model.service.PessoaService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
@@ -69,8 +70,8 @@ public class PessoaController {
         return ResponseEntity.status(HttpStatus.OK).body("Pessoa atualizada com sucesso!");
     }
 
-    @PostMapping
-    public ResponseEntity<Object> save(@RequestBody @Valid PessoaDTO pessoaDTO) {
+    @PostMapping("/{tipo}")
+    public ResponseEntity<Object> save(@PathVariable(value = "tipo") Integer tipo, @RequestBody @Valid PessoaDTO pessoaDTO) {
 
         if (service.existsById(pessoaDTO.getCpf())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Este cpf já está cadastrado!");
@@ -80,7 +81,7 @@ public class PessoaController {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Este email já está cadastrado!");
         }
 
-        Pessoa pessoa = new Pessoa();
+        Pessoa pessoa = new PessoaFactory().getPessoa(tipo);
         BeanUtils.copyProperties(pessoaDTO, pessoa);
         return ResponseEntity.status(HttpStatus.OK).body(service.save(pessoa));
     }

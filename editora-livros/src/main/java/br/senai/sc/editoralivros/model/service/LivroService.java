@@ -28,7 +28,7 @@ public class LivroService {
     }
 
     public List<Livro> findByAutor(Autor autor) {
-        return repository.findByAutor(autor);
+        return repository.findByAutores(autor);
     }
 
     public List<Livro> findAll() {
@@ -42,4 +42,6 @@ public class LivroService {
     public boolean existsById(Long isbn) {
         return repository.existsById(isbn);
     }
+
+    public List<Livro> findByIsbnAndStatus(Long isbn, Status status) { return repository.findByIsbnAndStatus(isbn, status); }
 }
