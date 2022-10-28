@@ -1,6 +1,7 @@
 package br.senai.sc.editoralivros.model.entities;
 
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
 import java.util.List;
@@ -8,7 +9,7 @@ import java.util.List;
 @Entity
 @Table(name = "tb_livros")
 @AllArgsConstructor
-@NoArgsConstructor()
+@NoArgsConstructor
 @Getter
 @Setter
 @ToString
@@ -44,7 +45,21 @@ public class Livro {
     private Revisor revisor;
 
     @ManyToOne
-    @JoinColumn(name = "cnpj_editora")
     private Editora editora;
+
+    @ManyToOne
+    private Arquivo arquivo;
+
+    public void setArquivo(MultipartFile file) {
+        try {
+            this.arquivo = new Arquivo(
+                    file.getOriginalFilename(),
+                    file.getContentType(),
+                    file.getBytes()
+            );
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
 

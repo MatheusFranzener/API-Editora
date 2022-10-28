@@ -11,7 +11,7 @@ public class LivroDTO {
 
     private Long isbn;
     private String titulo;
-    private List<Autor> autores;
     private Integer qtdPag;
+    private List<Autor> autores;
 
 }

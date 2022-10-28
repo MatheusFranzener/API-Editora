@@ -7,6 +7,7 @@ import br.senai.sc.editoralivros.model.entities.Livro;
 import br.senai.sc.editoralivros.model.entities.Pessoa;
 import br.senai.sc.editoralivros.model.entities.Status;
 import br.senai.sc.editoralivros.model.service.LivroService;
+import br.senai.sc.editoralivros.util.LivroUtil;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,6 +23,7 @@ import lombok.AllArgsConstructor;
 import javax.transaction.Transactional;
 
 import org.springframework.stereotype.Controller;
+import org.springframework.web.multipart.MultipartFile;
 
 @AllArgsConstructor
 @Controller
@@ -30,14 +32,20 @@ public class LivroController {
     private LivroService service;
 
     @PostMapping
-    public ResponseEntity<Object> save(@RequestBody @Valid LivroDTO livroDTO) {
-        if (service.existsById(livroDTO.getIsbn())) {
+    public ResponseEntity<Object> save(@RequestParam("livro") String livroJson, // agora o postman vai mandar uma string de json
+                                       @RequestParam("arquivo") MultipartFile file) { // arquivo que será enviado
+
+        // converter a string json para um objeto do tipo livro
+        LivroUtil util = new LivroUtil();
+        Livro livro = util.convertJsonToModel(livroJson);
+
+        if (service.existsById(livro.getIsbn())) {
             return ResponseEntity.status(HttpStatus.CONFLICT).body("Livro já cadastrado!");
         }
 
-        Livro livro = new Livro();
-        BeanUtils.copyProperties(livroDTO, livro);
+        livro.setArquivo(file);
         livro.setStatus(Status.AGUARDANDO_REVISAO);
+
         return ResponseEntity.status(HttpStatus.OK).body(service.save(livro));
     }
 
