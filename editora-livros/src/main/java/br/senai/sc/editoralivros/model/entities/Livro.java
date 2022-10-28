@@ -47,7 +47,7 @@ public class Livro {
     @ManyToOne
     private Editora editora;
 
-    @ManyToOne
+    @OneToOne(cascade = CascadeType.ALL)
     private Arquivo arquivo;
 
     public void setArquivo(MultipartFile file) {
