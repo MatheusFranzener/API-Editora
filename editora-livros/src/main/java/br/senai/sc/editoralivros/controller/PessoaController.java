@@ -7,6 +7,7 @@ import br.senai.sc.editoralivros.model.service.PessoaService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -83,6 +84,10 @@ public class PessoaController {
 
         Pessoa pessoa = new PessoaFactory().getPessoa(tipo);
         BeanUtils.copyProperties(pessoaDTO, pessoa);
+
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        pessoa.setSenha(encoder.encode(pessoa.getSenha()));
+
         return ResponseEntity.status(HttpStatus.OK).body(service.save(pessoa));
     }
 
