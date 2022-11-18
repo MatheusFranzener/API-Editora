@@ -17,6 +17,9 @@ import javax.validation.Valid;
 @RequestMapping("/login")
 public class AutenticacaoController {
 
+    @Autowired
+    private AutenticacaoService autenticacaoService;
+
     @Autowired // popula o objeto automaticamente
     private AuthenticationManager authenticationManager;
 
@@ -24,20 +27,14 @@ public class AutenticacaoController {
     public ResponseEntity<Object> autenticacao(@RequestBody @Valid UsuarioDTO usuarioDTO) {
         UsernamePasswordAuthenticationToken authenticationToken = new UsernamePasswordAuthenticationToken(usuarioDTO.getEmail(), usuarioDTO.getSenha());
 
-        System.out.println("senha: " + usuarioDTO.getSenha());
-        System.out.println("email: " + usuarioDTO.getEmail());
-
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
-        System.out.println("Autenticação: " + authentication.isAuthenticated());
-
         if (authentication.isAuthenticated()) {
-//            return ResponseEntity.ok().build();
-            return ResponseEntity.status(HttpStatus.OK).body(authenticationToken.getPrincipal());
+            String token = autenticacaoService.gerarToken(authentication);
+            return ResponseEntity.status(HttpStatus.OK).body(new TokenDTO("Bearer", token));
         }
 
         return ResponseEntity.badRequest().build();
     }
-
 
 }

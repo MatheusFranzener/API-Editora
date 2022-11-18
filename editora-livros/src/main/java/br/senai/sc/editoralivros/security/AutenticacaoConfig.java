@@ -20,7 +20,6 @@ public class AutenticacaoConfig extends WebSecurityConfigurerAdapter {
     private AutenticacaoService autenticacaoService;
 
     // Configura as autorizações de acesso
-
     @Override
     protected void configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
@@ -35,7 +34,6 @@ public class AutenticacaoConfig extends WebSecurityConfigurerAdapter {
     }
 
     // Configura a autenticação para os acessos
-
     @Override
     protected void configure(AuthenticationManagerBuilder authenticationManagerBuilder) throws Exception {
         authenticationManagerBuilder
@@ -45,7 +43,6 @@ public class AutenticacaoConfig extends WebSecurityConfigurerAdapter {
 
 
     // Utilizado para realizar a autenticação em AutenticacaoController
-
     @Bean
     @Override
     protected AuthenticationManager authenticationManager() throws Exception {
