@@ -11,6 +11,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
 @Configuration
 @EnableWebSecurity
@@ -21,16 +22,21 @@ public class AutenticacaoConfig extends WebSecurityConfigurerAdapter {
 
     // Configura as autorizações de acesso
     @Override
-    protected void configure(HttpSecurity httpSecurity) throws Exception {
-        httpSecurity.authorizeRequests()
-                // libera o acesso sem autenticação para o /login
-                .antMatchers("/login").permitAll()
-                .antMatchers(HttpMethod.POST, "/editoralivos/pessoa").permitAll()
-                // determina que todas as demais requisicoes terao de ser autenticadas
-                .anyRequest().authenticated()
-//                .and().formLogin()
-                .and().csrf().disable()
-                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+    protected void configure(HttpSecurity httpSecurity) {
+        try {
+            httpSecurity.authorizeRequests()
+                    // Libera o acesso sem autenticação para /login
+                    .antMatchers("/login").permitAll()
+                    .antMatchers(HttpMethod.POST, "/editoralivros/pessoa").permitAll()
+                    // Determina que todas as demais requsições precisam de autenticação
+                    .anyRequest().authenticated()
+//                    .and().formLogin()
+                    .and().csrf().disable()
+                    .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
+                    .and().addFilterBefore(new AutenticacaoFiltro(autenticacaoService), UsernamePasswordAuthenticationFilter.class);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     // Configura a autenticação para os acessos
