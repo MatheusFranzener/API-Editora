@@ -1,7 +1,8 @@
-package br.senai.sc.editoralivros.security;
+package br.senai.sc.editoralivros.security.service;
 
 import br.senai.sc.editoralivros.model.entities.Pessoa;
 import br.senai.sc.editoralivros.repository.PessoaRepository;
+import br.senai.sc.editoralivros.security.users.UserJpa;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,7 +16,7 @@ import java.util.Date;
 import java.util.Optional;
 
 @Service
-public class AutenticacaoService implements UserDetailsService {
+public class JpaService implements UserDetailsService {
 
     private String senhaForte = "05a9e62653eb0eaa116a1b8bbc06dd30ab0df73ab8ae16a500c80875e6e6c8a9";
 
@@ -27,7 +28,7 @@ public class AutenticacaoService implements UserDetailsService {
 
         Optional<Pessoa> pessoaOptional = pessoaRepository.findByEmail(username);
         if (pessoaOptional.isPresent()) {
-            return pessoaOptional.get();
+            return new UserJpa(pessoaOptional.get());
         }
 
         throw new UsernameNotFoundException("Usuário não encontrado!");
@@ -54,9 +55,9 @@ public class AutenticacaoService implements UserDetailsService {
         }
     }
 
-    public Pessoa getUsuario(String token) {
+    public UserJpa getUsuario(String token) {
         Long cpf = Long.parseLong(Jwts.parser().setSigningKey(senhaForte).parseClaimsJws(token).getBody().getSubject());
-        return pessoaRepository.findById(cpf).get();
+        return new UserJpa(pessoaRepository.findById(cpf).get());
     }
 
 }
