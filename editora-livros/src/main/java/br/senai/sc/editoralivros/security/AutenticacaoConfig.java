@@ -44,10 +44,8 @@ public class AutenticacaoConfig {
         httpSecurity.authenticationProvider(provider);
 
         httpSecurity.authorizeRequests()
-                .antMatchers("/editoralivros/login", "/editoralivros/usuarios").permitAll()
-//                .antMatchers(HttpMethod.POST, "/editoralivros/pessoa").permitAll()
+                .antMatchers("/editoralivros/login", "/editoralivros/usuarios", "/editoralivros/pessoa").permitAll()
 
-//                .anyRequest().authenticated()
                 .anyRequest().authenticated()
                 .and().csrf().disable()
 
@@ -61,12 +59,11 @@ public class AutenticacaoConfig {
                 .userService(googleService)
                 .and()
                 .loginPage("/editoralivros/login")
-//                .defaultSuccessUrl("/editoralivros/home")
                 .successHandler(new AuthenticationSuccessHandler() {
                     @Override
                     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
                         OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-                        try{
+                        try {
                             UserDetails userDetails = jpaService.loadUserByUsername(oAuth2User.getAttribute("email"));
                             response.sendRedirect("/editoralivros/home");
                         } catch (UsernameNotFoundException e) {
@@ -76,11 +73,9 @@ public class AutenticacaoConfig {
                 })
 
                 .and()
-                .logout().permitAll();
-//                .and()
-//
-//                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS)
-//                .and().addFilterBefore(new AutenticacaoFiltro(jpaService), UsernamePasswordAuthenticationFilter.class);
+                .logout()
+                .permitAll();
+
         return httpSecurity.build();
     }
 
