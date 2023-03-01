@@ -91,13 +91,23 @@ public class PessoaController {
 //    }
 
     @PostMapping
-    public String save(PessoaDTO pessoaDTO){
+    public ResponseEntity<Object> save(@RequestBody @Valid PessoaDTO pessoaDTO) {
+
+        if (service.existsById(pessoaDTO.getCpf())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Este cpf já está cadastrado!");
+        }
+
+        if (service.existsByEmail(pessoaDTO.getEmail())) {
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("Este email já está cadastrado!");
+        }
+
         Pessoa pessoa = new Pessoa();
         BeanUtils.copyProperties(pessoaDTO, pessoa);
-        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-        pessoa.setSenha(encoder.encode(pessoa.getSenha()));
-        service.save(pessoa);
-        return "home";
+
+//        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+//        pessoa.setSenha(encoder.encode(pessoa.getSenha()));
+
+        return ResponseEntity.status(HttpStatus.OK).body(service.save(pessoa));
     }
 
     @Transactional

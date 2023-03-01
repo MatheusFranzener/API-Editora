@@ -10,6 +10,8 @@ import java.util.Collection;
 @Data
 public class UserJpa implements UserDetails {
 
+    // Essa classe serve para fazer login no sistema, faz uma conexão com a classe JpaService
+
     private Pessoa pessoa;
 
     private Collection<GrantedAuthority> authorities;
