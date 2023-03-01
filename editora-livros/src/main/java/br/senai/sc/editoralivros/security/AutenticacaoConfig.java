@@ -48,31 +48,8 @@ public class AutenticacaoConfig {
                 .antMatchers("/editoralivros/login", "/editoralivros/usuarios", "/editoralivros/pessoa").permitAll()
 
                 .anyRequest().authenticated()
-                .and().csrf().disable()
-
+                .and().csrf().disable().cors().disable()
                 .formLogin().permitAll()
-                .loginPage("/editoralivros/login")
-                .defaultSuccessUrl("/editoralivros/home")
-                .and()
-
-                .oauth2Login()
-                .userInfoEndpoint()
-                .userService(googleService)
-                .and()
-                .loginPage("/editoralivros/login")
-                .successHandler(new AuthenticationSuccessHandler() {
-                    @Override
-                    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
-                        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-                        try {
-                            UserDetails userDetails = jpaService.loadUserByUsername(oAuth2User.getAttribute("email"));
-                            response.sendRedirect("/editoralivros/home");
-                        } catch (UsernameNotFoundException e) {
-                            response.sendRedirect("/editoralivros/usuarios");
-                        }
-                    }
-                })
-
                 .and()
                 .logout()
                 .permitAll();
