@@ -18,48 +18,25 @@ import java.util.Optional;
 @Service
 public class JpaService implements UserDetailsService {
 
-    // Essa classe serve para realizar a conexão
+    // Essa classe serve para apenas procurar um usuario ( definir que será do banco de dados, diferente do padrão )
 
-    private String senhaForte = "05a9e62653eb0eaa116a1b8bbc06dd30ab0df73ab8ae16a500c80875e6e6c8a9";
-
-    @Autowired
     private PessoaRepository pessoaRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
         Optional<Pessoa> pessoaOptional = pessoaRepository.findByEmail(username);
+
         if (pessoaOptional.isPresent()) {
             return new UserJpa(pessoaOptional.get());
+        } else {
+            pessoaOptional = pessoaRepository.findById(Long.parseLong(username));
+
+            if(pessoaOptional.isPresent()){
+
+            }
         }
 
         throw new UsernameNotFoundException("Usuário não encontrado!");
-    }
-
-    public String gerarToken(Authentication authentication) {
-        Pessoa pessoa = (Pessoa) authentication.getPrincipal();
-
-        return Jwts.builder()
-                .setIssuer("Editora de Livros")
-                .setSubject(pessoa.getCpf().toString())
-                .setIssuedAt(new Date())
-                .setExpiration(new Date(new Date().getTime() + 1800000))
-                .signWith(SignatureAlgorithm.HS256, senhaForte)
-                .compact();
-    }
-
-    public Boolean validarToken(String token) {
-        try {
-            Jwts.parser().setSigningKey(senhaForte).parseClaimsJws(token);
-            return true;
-        } catch (Exception e) {
-            return false;
-        }
-    }
-
-    public UserJpa getUsuario(String token) {
-        Long cpf = Long.parseLong(Jwts.parser().setSigningKey(senhaForte).parseClaimsJws(token).getBody().getSubject());
-        return new UserJpa(pessoaRepository.findById(cpf).get());
     }
 
 }

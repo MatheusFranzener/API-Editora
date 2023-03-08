@@ -2,6 +2,7 @@ package br.senai.sc.editoralivros.controller;
 
 import br.senai.sc.editoralivros.dto.PessoaDTO;
 import br.senai.sc.editoralivros.model.entities.Pessoa;
+import br.senai.sc.editoralivros.model.factory.PessoaFactory;
 import br.senai.sc.editoralivros.model.service.PessoaService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.http.HttpStatus;
