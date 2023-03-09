@@ -12,6 +12,7 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
+import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -26,6 +27,11 @@ public class AutenticacaoFiltro extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest request, HttpServletResponse response, FilterChain filterChain) throws ServletException, IOException {
+        if(request.getRequestURI().equals("/editoralivros/login") || request.getRequestURI().equals("/editoralivros/pessoa")){
+            filterChain.doFilter(request, response);
+            return;
+        }
+
         String token = request.getHeader("Authorization");
         if (token != null && token.startsWith("Bearer ")) {
             token = token.substring(7); // remove o Bearer
@@ -37,16 +43,16 @@ public class AutenticacaoFiltro extends OncePerRequestFilter {
 
         if (valido) {
             Long usuarioCPF = tokenUtils.getUsuarioCPF(token);
-            UserDetails usuario = jpaService.loadUserByUsername(usuarioCPF.toString());
+            UserDetails usuario = jpaService.loadUserByCPF(usuarioCPF);
             UsernamePasswordAuthenticationToken usernamePasswordAuthenticationToken =
                     new UsernamePasswordAuthenticationToken(usuario.getUsername(), null, usuario.getAuthorities());
             SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuthenticationToken);
-        } else if (!request.getRequestURI().equals("/editoralivros/login") || !request.getRequestURI().equals("/editoralivros/usuarios")) {
-            response.setStatus(401);
+            filterChain.doFilter(request, response);
+
+            return;
         }
 
-        filterChain.doFilter(request, response);
-
+        response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
     }
 
 }

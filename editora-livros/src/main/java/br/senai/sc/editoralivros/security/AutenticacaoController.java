@@ -15,7 +15,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import javax.validation.Valid;
 
 @Controller
-@RequestMapping("/login")
+@RequestMapping("/editoralivros/login")
 public class AutenticacaoController {
 
     private TokenUtils tokenUtils = new TokenUtils();
