@@ -1,13 +1,13 @@
 package br.senai.sc.editoralivros.security;
 
-import br.senai.sc.editoralivros.model.entities.Pessoa;
-import br.senai.sc.editoralivros.repository.PessoaRepository;
 import br.senai.sc.editoralivros.security.users.UserJpa;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.userdetails.User;
+import org.springframework.web.util.WebUtils;
 
+import javax.servlet.http.Cookie;
+import javax.servlet.http.HttpServletRequest;
 import java.util.Date;
 
 public class TokenUtils {
@@ -44,4 +44,13 @@ public class TokenUtils {
 //        return new UserJpa(pessoaRepository.findById(cpf).get());
     }
 
+    public String buscarCookie(HttpServletRequest request) {
+        Cookie cookie = WebUtils.getCookie(request, "jwt");
+
+        if (cookie != null) {
+            return cookie.getValue();
+        }
+
+        throw new RuntimeException("Cookie não encontrado!");
+    }
 }

@@ -47,7 +47,7 @@ public class AutenticacaoConfig {
     @Bean
     protected SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
-                .antMatchers("/editoralivros/login", "/editoralivros/usuarios", "/editoralivros/pessoa").permitAll()
+                .antMatchers("/editoralivros/login", "/editoralivros/usuarios", "/editoralivros/pessoa", "/editoralivros/login/auth").permitAll()
                 .anyRequest().authenticated();
 
         httpSecurity.csrf().disable()
