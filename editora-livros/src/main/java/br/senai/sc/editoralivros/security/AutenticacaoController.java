@@ -38,6 +38,7 @@ public class AutenticacaoController {
 
             // Criando um cookie para armazenar o token no front end
             Cookie cookie = new Cookie("jwt", token);
+            cookie.setPath("/");
             UserJpa userJpa = (UserJpa) authentication.getPrincipal();
             Pessoa pessoa = userJpa.getPessoa();
             response.addCookie(cookie);

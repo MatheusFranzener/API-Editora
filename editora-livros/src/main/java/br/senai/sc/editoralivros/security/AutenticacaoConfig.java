@@ -7,6 +7,7 @@ import lombok.AllArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
@@ -47,7 +48,10 @@ public class AutenticacaoConfig {
     @Bean
     protected SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
-                .antMatchers("/editoralivros/login", "/editoralivros/usuarios", "/editoralivros/pessoa", "/editoralivros/login/auth").permitAll()
+                .antMatchers("/editoralivros/login", "/editoralivros/login/auth", "/editoralivros/logout").permitAll()
+//                Post do livro somente para o autor
+                .antMatchers(HttpMethod.POST, "/editoralivros/livro")
+                .hasAnyAuthority("Autor")
                 .anyRequest().authenticated();
 
         httpSecurity.csrf().disable()

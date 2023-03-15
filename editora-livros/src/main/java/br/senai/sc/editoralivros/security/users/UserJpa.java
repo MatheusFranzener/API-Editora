@@ -3,9 +3,12 @@ package br.senai.sc.editoralivros.security.users;
 import br.senai.sc.editoralivros.model.entities.Pessoa;
 import lombok.Data;
 import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 @Data
 public class UserJpa implements UserDetails {
@@ -24,7 +27,7 @@ public class UserJpa implements UserDetails {
 
     private boolean enabled = true;
 
-    public UserJpa(Pessoa pessoa){
+    public UserJpa(Pessoa pessoa) {
         this.pessoa = pessoa;
     }
 
@@ -36,5 +39,14 @@ public class UserJpa implements UserDetails {
     @Override
     public String getUsername() {
         return pessoa.getEmail();
+    }
+
+    // Substituindo o padrão ( que retorna nulo ), pega o nome da classe do objeto pessoa
+    @Override
+    public Collection<GrantedAuthority> getAuthorities() {
+        List<GrantedAuthority> authorities = new ArrayList<>();
+        authorities.add(new SimpleGrantedAuthority(this.getPessoa().getClass().getSimpleName()));
+
+        return authorities;
     }
 }
