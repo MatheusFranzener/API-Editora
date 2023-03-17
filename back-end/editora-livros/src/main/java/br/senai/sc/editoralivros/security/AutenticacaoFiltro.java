@@ -1,10 +1,7 @@
 package br.senai.sc.editoralivros.security;
 
-import br.senai.sc.editoralivros.model.entities.Pessoa;
 import br.senai.sc.editoralivros.security.service.JpaService;
-import br.senai.sc.editoralivros.security.users.UserJpa;
 import lombok.AllArgsConstructor;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -12,7 +9,6 @@ import org.springframework.web.filter.OncePerRequestFilter;
 
 import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
@@ -31,13 +27,6 @@ public class AutenticacaoFiltro extends OncePerRequestFilter {
             filterChain.doFilter(request, response);
             return;
         }
-
-//        String token = request.getHeader("Authorization");
-//        if (token != null && token.startsWith("Bearer ")) {
-//            token = token.substring(7); // remove o Bearer
-//        } else {
-//            token = null;
-//        }
 
         String token = tokenUtils.buscarCookie(request);
         Boolean valido = tokenUtils.validarToken(token);

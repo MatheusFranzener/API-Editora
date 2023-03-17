@@ -1,7 +1,6 @@
 package br.senai.sc.editoralivros.security;
 
 import br.senai.sc.editoralivros.model.entities.Pessoa;
-import br.senai.sc.editoralivros.security.service.JpaService;
 import br.senai.sc.editoralivros.security.users.UserJpa;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -34,16 +33,12 @@ public class AutenticacaoController {
         Authentication authentication = authenticationManager.authenticate(authenticationToken);
 
         if (authentication.isAuthenticated()) {
-            String token = tokenUtils.gerarToken(authentication);
-
             // Criando um cookie para armazenar o token no front end
-            Cookie cookie = new Cookie("jwt", token);
-            cookie.setPath("/");
-            UserJpa userJpa = (UserJpa) authentication.getPrincipal();
-            Pessoa pessoa = userJpa.getPessoa();
-            response.addCookie(cookie);
+            response.addCookie(tokenUtils.gerarCookie(authentication));
 
-            return ResponseEntity.status(HttpStatus.OK).body(pessoa);
+            UserJpa userJpa = (UserJpa) authentication.getPrincipal();
+
+            return ResponseEntity.ok(userJpa.getPessoa());
         }
 
         return ResponseEntity.status(HttpStatus.UNAUTHORIZED).build();

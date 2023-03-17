@@ -13,6 +13,7 @@
     "flowbite": "^1.6.3",
     "flowbite-react": "^0.3.8",
     "js-cookie": "^3.0.1",
+    "mkcert": "^1.5.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.0",
     "react-dom": "^18.2.0",
@@ -25,6 +26,8 @@
     "yup": "^1.0.0"
   },
   "scripts": {
+    "mk": "mkcert create-ca --organization 'SENAI' --country-code 'BR' --state 'Santa Catarina' --locality 'Jaragua do Sul'",
+    "mk2": "mkcert create-cert --domains 'localhost'",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",

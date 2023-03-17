@@ -1,5 +1,6 @@
-import React, {useState} from 'react'
-import {Button, Label, TextInput} from 'flowbite-react'
+import React, { useState } from 'react'
+import { Button, Label, TextInput } from 'flowbite-react'
+import AutenticacaoService from '../services/AutenticacaoService';
 
 const Login = () => {
 
@@ -18,7 +19,8 @@ const Login = () => {
     const handleLogin = async (e) => {
         e.preventDefault();
         try {
-            console.log(e);
+            const response = await AutenticacaoService.login(user);
+            console.log("Response: ", response);
         } catch (error) {
             console.log(error);
         }
@@ -70,4 +72,5 @@ const Login = () => {
         </div>)
 
 }
+
 export default Login

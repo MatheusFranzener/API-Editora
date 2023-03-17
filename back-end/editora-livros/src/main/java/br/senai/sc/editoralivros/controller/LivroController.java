@@ -1,10 +1,8 @@
 package br.senai.sc.editoralivros.controller;
 
 import br.senai.sc.editoralivros.dto.LivroDTO;
-import br.senai.sc.editoralivros.dto.PessoaDTO;
 import br.senai.sc.editoralivros.model.entities.Autor;
 import br.senai.sc.editoralivros.model.entities.Livro;
-import br.senai.sc.editoralivros.model.entities.Pessoa;
 import br.senai.sc.editoralivros.model.entities.Status;
 import br.senai.sc.editoralivros.model.service.LivroService;
 import br.senai.sc.editoralivros.util.LivroUtil;
