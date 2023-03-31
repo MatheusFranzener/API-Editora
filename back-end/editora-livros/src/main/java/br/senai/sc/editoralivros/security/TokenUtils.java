@@ -29,7 +29,7 @@ public class TokenUtils {
     public Cookie gerarCookie(Authentication authentication) {
         Cookie cookie = new Cookie("jwt", gerarToken(authentication));
         cookie.setPath("/");
-        cookie.setSecure(true);
+//        cookie.setSecure(true);
         cookie.setMaxAge(3600);
 
         return cookie;

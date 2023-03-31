@@ -40,7 +40,7 @@ public class AutenticacaoConfig {
         CorsConfiguration corsConfiguration = new CorsConfiguration();
 
         // Permite o link da aplicação
-        corsConfiguration.setAllowedOrigins(List.of("https://localhost:3000"));
+        corsConfiguration.setAllowedOrigins(List.of("http://localhost:3000"));
 
         // Descreve quais métodos serão permitidos
         corsConfiguration.setAllowedMethods(List.of("POST", "DELETE", "GET", "PUT"));

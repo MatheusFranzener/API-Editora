@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const url = "https://localhost:8443/editoralivros/login";
+const url = "http://localhost:8443/editoralivros/login";
 
 class AutenticacaoService {
     login(user) {
@@ -8,6 +8,7 @@ class AutenticacaoService {
             withCredentials: true
         };
 
+        console.log("User: " + JSON.stringify(user));
         return axios.post(url + "/auth", user, config)
     }
 }
