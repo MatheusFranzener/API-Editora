@@ -28,7 +28,7 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.multipart.MultipartFile;
 
 @AllArgsConstructor
-@Controller
+@RestController
 @RequestMapping("/editoralivros/livro")
 public class LivroController {
     private LivroService service;

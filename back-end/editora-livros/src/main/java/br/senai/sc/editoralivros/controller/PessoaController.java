@@ -20,7 +20,7 @@ import javax.transaction.Transactional;
 import org.springframework.stereotype.Controller;
 
 @AllArgsConstructor
-@Controller
+@RestController
 @RequestMapping("/editoralivros/pessoa") // Criando a rota para as requisições
 public class PessoaController {
     private PessoaService service;

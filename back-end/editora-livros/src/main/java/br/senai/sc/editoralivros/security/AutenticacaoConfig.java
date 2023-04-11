@@ -62,6 +62,8 @@ public class AutenticacaoConfig {
     protected SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
                 .antMatchers("/editoralivros/login", "/editoralivros/login/auth", "/editoralivros/logout").permitAll()
+                .antMatchers("/swagger-ui/**").permitAll()
+                .antMatchers("/v3/api-docs/**").permitAll()
 //                Post do livro somente para o autor
                 .antMatchers(HttpMethod.POST, "/editoralivros/livro")
                 .hasAnyAuthority("Autor")
