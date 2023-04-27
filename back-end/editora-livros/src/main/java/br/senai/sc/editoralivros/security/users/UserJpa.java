@@ -10,12 +10,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+// A classe UserJPA é a classe utilizada para realizar a autenticação do usuário ( faz uma ligação com pessoa e userDetails )
 @Data
 public class UserJpa implements UserDetails {
 
-    // Essa classe serve para fazer login no sistema, faz uma conexão com a classe JpaService
+    // Implementação da (Pessoa/Usuario) do sistema
 
     private Pessoa pessoa;
+
+    // Depois a implementação de todos os métodos do UserDetails
+    // Lembrar de mudar para true e depois colocar o getSenha e getEmail
 
     private Collection<GrantedAuthority> authorities;
 
@@ -41,7 +45,8 @@ public class UserJpa implements UserDetails {
         return pessoa.getEmail();
     }
 
-    // Substituindo o padrão ( que retorna nulo ), pega o nome da classe do objeto pessoa
+    // Substituindo o padrão ( que retorna nulo ), ele retorna o tipo da pessoa ( autor, diretor ou revisor )
+
     @Override
     public Collection<GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorities = new ArrayList<>();

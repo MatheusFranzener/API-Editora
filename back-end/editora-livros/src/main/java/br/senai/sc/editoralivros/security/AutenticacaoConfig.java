@@ -21,6 +21,8 @@ import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
 
 import java.util.List;
 
+// Classe para fazer a configuração gerar do autentication
+
 @Configuration
 @AllArgsConstructor
 public class AutenticacaoConfig {
@@ -29,7 +31,8 @@ public class AutenticacaoConfig {
 
     private GoogleService googleService;
 
-    // Utilizado para substituir o provider
+    // Seta o serviço de autenticação e a criptografia de senha
+
     @Autowired
     public void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(jpaService).passwordEncoder(NoOpPasswordEncoder.getInstance());
@@ -48,6 +51,7 @@ public class AutenticacaoConfig {
         // Permite que salve um cookie da api ou capturar o cookie
         corsConfiguration.setAllowCredentials(true);
 
+        // Permite que o header seja qualquer um
         corsConfiguration.setAllowedHeaders(List.of("*"));
 
         // Qualquer caminho que fizer requisição deverá utilizar essas configurações do corsConfiguration
@@ -66,7 +70,7 @@ public class AutenticacaoConfig {
                 .antMatchers("/v3/api-docs/**").permitAll()
 //                Post do livro somente para o autor
                 .antMatchers(HttpMethod.POST, "/editoralivros/livro")
-                .hasAnyAuthority("Autor")
+                .hasAuthority("Autor")
                 .anyRequest().authenticated();
 
         httpSecurity.csrf().disable();
@@ -84,6 +88,7 @@ public class AutenticacaoConfig {
         return httpSecurity.build();
     }
 
+    // Injeção de dependências no AutenticacaoController quando necessitar (autowired não funcionar)
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration ac) throws Exception {
         return ac.getAuthenticationManager();
