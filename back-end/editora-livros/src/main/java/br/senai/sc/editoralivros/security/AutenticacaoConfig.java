@@ -62,6 +62,7 @@ public class AutenticacaoConfig {
     }
 
     // Configura as autorizações de acesso http
+    // requestMatchers ( se não der pra colocar o antMatchers )
     @Bean
     protected SecurityFilterChain configure(HttpSecurity httpSecurity) throws Exception {
         httpSecurity.authorizeRequests()
